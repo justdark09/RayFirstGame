@@ -57,6 +57,14 @@ build CMakeFiles/RayFirstGame.dir/main.cpp.obj: CXX_COMPILER__RayFirstGame_unsca
   OBJECT_DIR = CMakeFiles\RayFirstGame.dir
   OBJECT_FILE_DIR = CMakeFiles\RayFirstGame.dir
 
+build CMakeFiles/RayFirstGame.dir/knight.cpp.obj: CXX_COMPILER__RayFirstGame_unscanned_Debug C$:/Users/darkp/CLionProjects/RayFirstGame/knight.cpp || cmake_object_order_depends_target_RayFirstGame
+  DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
+  DEP_FILE = CMakeFiles\RayFirstGame.dir\knight.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/darkp/CLionProjects/RayFirstGame/cmake-build-debug/_deps/raylib-src/src -IC:/Users/darkp/CLionProjects/RayFirstGame/cmake-build-debug/_deps/raylib-src/src/external/glfw/include
+  OBJECT_DIR = CMakeFiles\RayFirstGame.dir
+  OBJECT_FILE_DIR = CMakeFiles\RayFirstGame.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target RayFirstGame
@@ -65,7 +73,7 @@ build CMakeFiles/RayFirstGame.dir/main.cpp.obj: CXX_COMPILER__RayFirstGame_unsca
 #############################################
 # Link the executable RayFirstGame.exe
 
-build RayFirstGame.exe: CXX_EXECUTABLE_LINKER__RayFirstGame_Debug CMakeFiles/RayFirstGame.dir/main.cpp.obj | _deps/raylib-build/raylib/libraylib.a _deps/raylib-build/raylib/external/glfw/src/libglfw3.a || _deps/raylib-build/raylib/external/glfw/src/libglfw3.a _deps/raylib-build/raylib/libraylib.a
+build RayFirstGame.exe: CXX_EXECUTABLE_LINKER__RayFirstGame_Debug CMakeFiles/RayFirstGame.dir/main.cpp.obj CMakeFiles/RayFirstGame.dir/knight.cpp.obj | _deps/raylib-build/raylib/libraylib.a _deps/raylib-build/raylib/external/glfw/src/libglfw3.a || _deps/raylib-build/raylib/external/glfw/src/libglfw3.a _deps/raylib-build/raylib/libraylib.a
   FLAGS = -g
   LINK_LIBRARIES = _deps/raylib-build/raylib/libraylib.a  -lopengl32  -lglu32  -lwinmm  _deps/raylib-build/raylib/external/glfw/src/libglfw3.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\RayFirstGame.dir

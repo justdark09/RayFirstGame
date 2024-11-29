@@ -7,6 +7,12 @@
 },
 {
   "directory": "C:/Users/darkp/CLionProjects/RayFirstGame/cmake-build-debug",
+  "command": "C:\\PROGRA~1\\JETBRA~1\\CLION2~1.3\\bin\\mingw\\bin\\G__~1.EXE -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/darkp/CLionProjects/RayFirstGame/cmake-build-debug/_deps/raylib-src/src -IC:/Users/darkp/CLionProjects/RayFirstGame/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\RayFirstGame.dir\\knight.cpp.obj -c C:\\Users\\darkp\\CLionProjects\\RayFirstGame\\knight.cpp",
+  "file": "C:\\Users\\darkp\\CLionProjects\\RayFirstGame\\knight.cpp",
+  "output": "CMakeFiles\\RayFirstGame.dir\\knight.cpp.obj"
+},
+{
+  "directory": "C:/Users/darkp/CLionProjects/RayFirstGame/cmake-build-debug",
   "command": "C:\\PROGRA~1\\JETBRA~1\\CLION2~1.3\\bin\\mingw\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS -IC:/Users/darkp/CLionProjects/RayFirstGame/cmake-build-debug/_deps/raylib-src/src -isystem C:/Users/darkp/CLionProjects/RayFirstGame/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -fdiagnostics-color=always -o _deps\\raylib-build\\raylib\\CMakeFiles\\raylib.dir\\rcore.c.obj -c C:\\Users\\darkp\\CLionProjects\\RayFirstGame\\cmake-build-debug\\_deps\\raylib-src\\src\\rcore.c",
   "file": "C:\\Users\\darkp\\CLionProjects\\RayFirstGame\\cmake-build-debug\\_deps\\raylib-src\\src\\rcore.c",
   "output": "_deps\\raylib-build\\raylib\\CMakeFiles\\raylib.dir\\rcore.c.obj"
