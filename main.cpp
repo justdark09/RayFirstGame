@@ -43,11 +43,13 @@ int main()
     float timer = 0.0f;
     int frame = 0;
 
-    float spriteX = 0;
-    float spriteY = 0;
+    float spriteX = frameWidth/2;
+    float spriteY = frameHeight/2;
 
     std::cout<<spriteX<<", "<<spriteY<<std::endl;
-    std::cout<<frameWidth<<", "<<frameHeight<<std::endl;
+    std::cout<<frameWidth<<", "<<frameHeight<<std::endl;\
+
+    float frameTime = .12f;
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -57,7 +59,7 @@ int main()
         timer += GetFrameTime();
 
         // increases the frame value every frameTime (tf does that actually mean)
-        if (timer > .12f) {
+        if (timer > frameTime) {
             timer = 0.0f;
             frame += 1;
         }
@@ -80,19 +82,19 @@ int main()
         crouch_struct.maxFrames = 3;
         crouch_struct.animationHeight = frameHeight*7;
 
-        const float runMultiplier = 1.25;
+        const float runMultiplier = 1.1;
         const float crouchMultiplier = .5;
-
-
 
         if (IsKeyDown(KEY_D)) {
             currentFrame = frameWidth;
 
             if (IsKeyDown(KEY_LEFT_SHIFT)) {
                 spriteX += 5 * runMultiplier;
+                frameTime = .08f;
             }
 
             if (IsKeyDown(KEY_S)) {
+                frameTime = .12f;
                 spriteX += 5 * crouchMultiplier;
                 current_struct = crouch_struct;
             } else {
@@ -105,9 +107,11 @@ int main()
 
             if (IsKeyDown(KEY_LEFT_SHIFT)) {
                 spriteX -= 5 * runMultiplier;
+                frameTime = .08f;
             }
 
             if (IsKeyDown(KEY_S)) {
+                frameTime = .12f;
                 spriteX -= 5 * crouchMultiplier;
                 current_struct = crouch_struct;
             } else {
@@ -118,10 +122,8 @@ int main()
 
         } else {
             current_struct = idle_struct;
+            frameTime = .12f;
         }
-
-
-
 
         currentMaxFrames = current_struct.maxFrames;
 
@@ -131,13 +133,20 @@ int main()
         DrawTexturePro(
             knightSheet,
             Rectangle{ frameWidth*frame, current_struct.animationHeight, currentFrame, frameHeight },
-            Rectangle{ spriteX+(frameWidth*5),spriteY+(frameHeight*5), frameWidth*5, frameHeight*5 },
-            Vector2{0,0},
+            Rectangle{ spriteX-(frameWidth/2)*5,spriteY-(frameHeight/2)*5, frameWidth*5, frameHeight*5 },
+            Vector2{frameWidth/2, frameHeight/2},
             0.f,
             WHITE);
 
-            // todo: spriteX and spriteY do not work with SCREEN_HEIGHT or SCREEN_WIDTH
-            //  causing the sprite to not be drawn on the screen in the first place
+            // todo:
+            //  * - spriteX and spriteY do not work with SCREEN_HEIGHT or SCREEN_WIDTH
+            //  * causing the sprite to not be drawn on the screen in the first place
+            //  *
+            //  * - edit the if, if-else, else tree so KEY_D does not have priority
+            //  * over KEY_A. kind of a mix of IsKeyDown(int key) and GetKeyPressed(void)
+            //                                      ^^^  found in rcore.c  ^^^
+            //  * -
+
 
         EndDrawing();
 
