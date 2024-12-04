@@ -13,7 +13,7 @@ int printThanks()
 int main()
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Knight Game");
-    SetTargetFPS(60);
+    SetTargetFPS(170);
 
     Texture2D knightSheet = LoadTexture("assets/sprites/knight_sheet.png");
     const float frameHeight = static_cast<float>(knightSheet.height)/30;
@@ -127,16 +127,6 @@ int main()
 
         currentMaxFrames = current_struct.maxFrames;
 
-        frame = frame % currentMaxFrames;
-
-
-        DrawTexturePro(
-            knightSheet,
-            Rectangle{ frameWidth*frame, current_struct.animationHeight, currentFrame, frameHeight },
-            Rectangle{ spriteX-(frameWidth/2)*5,spriteY-(frameHeight/2)*5, frameWidth*5, frameHeight*5 },
-            Vector2{frameWidth/2, frameHeight/2},
-            0.f,
-            WHITE);
 
             // todo:
             //  * - spriteX and spriteY do not work with SCREEN_HEIGHT or SCREEN_WIDTH
