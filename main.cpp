@@ -33,21 +33,21 @@ int main()
     AnimationStruct attack2_struct{};
     AnimationStruct run_struct{};
     AnimationStruct idle_struct{};
-    AnimationStruct crouch_struct{};
+    AnimationStruct crouch_walk_struct{};
+    AnimationStruct crouch_noMove_struct{};
 
     // placeholder struct so the textures can be changed
     AnimationStruct current_struct{};
 
-    int currentMaxFrames;
+    // declare and initialize variables used within the while loop in order to keep the code clean
+    const float runMultiplier = 1.1;
+    const float crouchMultiplier = .7;
 
     float timer = 0.0f;
     int frame = 0;
 
     float spriteX = frameWidth/2;
     float spriteY = frameHeight/2;
-
-    std::cout<<spriteX<<", "<<spriteY<<std::endl;
-    std::cout<<frameWidth<<", "<<frameHeight<<std::endl;\
 
     float frameTime = .12f;
 
@@ -64,39 +64,38 @@ int main()
             frame += 1;
         }
 
-
         // initialize the animation structs
         // !! maxFrames should equal the number of frames the animation has MINUS ONE !!
         idle_struct.maxFrames = 9;
-        idle_struct.animationHeight = frameHeight*16.f;
+        idle_struct.animationHeight = frameHeight * 16.f;
 
         attack2_struct.maxFrames = 5;
-        attack2_struct.animationHeight = frameHeight*2.f;
+        attack2_struct.animationHeight = (float)frameHeight * 2.f;
 
         attack1_struct.maxFrames = 3;
-        attack1_struct.animationHeight = (float)frameHeight;
+        attack1_struct.animationHeight = frameHeight;
 
         run_struct.maxFrames = 9;
-        run_struct.animationHeight = frameHeight*20.f;
+        run_struct.animationHeight = frameHeight * 20.f;
 
-        crouch_struct.maxFrames = 3;
-        crouch_struct.animationHeight = frameHeight*7;
+        crouch_noMove_struct.maxFrames = 3;
+        crouch_noMove_struct.animationHeight = frameHeight * 7;
 
-        const float runMultiplier = 1.1;
-        const float crouchMultiplier = .5;
+        crouch_walk_struct.maxFrames = 7;
+        crouch_walk_struct.animationHeight = frameHeight * 10;
 
         if (IsKeyDown(KEY_D)) {
             currentFrame = frameWidth;
-
-            if (IsKeyDown(KEY_LEFT_SHIFT)) {
-                spriteX += 5 * runMultiplier;
-                frameTime = .08f;
-            }
+            frameTime = .12f;
 
             if (IsKeyDown(KEY_S)) {
                 frameTime = .12f;
                 spriteX += 5 * crouchMultiplier;
-                current_struct = crouch_struct;
+                current_struct = crouch_walk_struct;
+            } else if (IsKeyDown(KEY_LEFT_SHIFT)) {
+                current_struct = run_struct;
+                spriteX += 5 * runMultiplier;
+                frameTime = .08f;
             } else {
                 spriteX += 5;
                 current_struct = run_struct;
@@ -104,29 +103,45 @@ int main()
 
         } else if (IsKeyDown(KEY_A)) {
             currentFrame = flippedFrame;
-
-            if (IsKeyDown(KEY_LEFT_SHIFT)) {
-                spriteX -= 5 * runMultiplier;
-                frameTime = .08f;
-            }
+            frameTime = .12f;
 
             if (IsKeyDown(KEY_S)) {
                 frameTime = .12f;
                 spriteX -= 5 * crouchMultiplier;
-                current_struct = crouch_struct;
+                current_struct = crouch_walk_struct;
+            } else if (IsKeyDown(KEY_LEFT_SHIFT)) {
+                current_struct = run_struct;
+                spriteX -= 5 * runMultiplier;
+                frameTime = .08f;
             } else {
                 spriteX -= 5;
                 current_struct = run_struct;
                 currentFrame = flippedFrame;
             }
 
+        } else if (IsKeyDown(KEY_S)) {
+            current_struct = crouch_noMove_struct;
+            frameTime = .48f;
         } else {
             current_struct = idle_struct;
             frameTime = .12f;
         }
 
-        currentMaxFrames = current_struct.maxFrames;
+        if (spriteX > SCREEN_WIDTH + frameWidth) {
+            spriteX = 0;
+        }
+        if (spriteX < 0) {
+            spriteX = SCREEN_WIDTH + frameWidth;
+        }
 
+        frame = frame % current_struct.maxFrames;
+        DrawTexturePro(
+            knightSheet,
+            Rectangle{ frameWidth*frame, current_struct.animationHeight, currentFrame, frameHeight },
+            Rectangle{ spriteX-(frameWidth/2)*5,spriteY-(frameHeight/2)*5, frameWidth*5, frameHeight*5 },
+            Vector2{frameWidth/2, frameHeight/2},
+            0.f,
+            WHITE);
 
             // todo:
             //  * - spriteX and spriteY do not work with SCREEN_HEIGHT or SCREEN_WIDTH
