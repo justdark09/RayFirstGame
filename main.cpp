@@ -13,13 +13,17 @@ int printThanks()
 int main()
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Knight Game");
-    SetTargetFPS(170);
+    SetTargetFPS(60);
 
     Texture2D knightSheet = LoadTexture("assets/sprites/knight_sheet.png");
     const float frameHeight = static_cast<float>(knightSheet.height)/30;
     const float frameWidth = static_cast<float>(knightSheet.width)/12;
     const float flippedFrame = -frameWidth;
     float currentFrame = frameWidth;
+
+    // gravity
+    float gravity = 750;
+    float velocityY = 0;
 
     // holds the source Rectangle and the MaxFrames for each object of a texture
     struct AnimationStruct {
@@ -35,6 +39,7 @@ int main()
     AnimationStruct idle_struct{};
     AnimationStruct crouch_walk_struct{};
     AnimationStruct crouch_noMove_struct{};
+    AnimationStruct jump_struct{};
 
     // placeholder struct so the textures can be changed
     AnimationStruct current_struct{};
@@ -47,7 +52,7 @@ int main()
     int frame = 0;
 
     float spriteX = frameWidth/2;
-    float spriteY = frameHeight/2;
+    float spriteY = 300;
 
     float frameTime = .12f;
 
@@ -64,13 +69,16 @@ int main()
             frame += 1;
         }
 
+        velocityY += GetFrameTime() * gravity;
+        spriteY += GetFrameTime() * velocityY;
+
         // initialize the animation structs
         // !! maxFrames should equal the number of frames the animation has MINUS ONE !!
         idle_struct.maxFrames = 9;
         idle_struct.animationHeight = frameHeight * 16.f;
 
         attack2_struct.maxFrames = 5;
-        attack2_struct.animationHeight = (float)frameHeight * 2.f;
+        attack2_struct.animationHeight = static_cast<float>(frameHeight) * 2.f;
 
         attack1_struct.maxFrames = 3;
         attack1_struct.animationHeight = frameHeight;
@@ -84,7 +92,14 @@ int main()
         crouch_walk_struct.maxFrames = 7;
         crouch_walk_struct.animationHeight = frameHeight * 10;
 
-        if (IsKeyDown(KEY_D)) {
+        jump_struct.maxFrames = 2;
+        jump_struct.animationHeight = frameHeight * 15;
+
+
+        if (IsKeyPressed(KEY_W)) {
+            velocityY = -300;
+            current_struct = jump_struct;
+        } else if (IsKeyDown(KEY_D)) {
             currentFrame = frameWidth;
             frameTime = .12f;
 
@@ -125,6 +140,7 @@ int main()
         } else {
             current_struct = idle_struct;
             frameTime = .12f;
+            spriteY -= 5;
         }
 
         if (spriteX > SCREEN_WIDTH + frameWidth) {
@@ -134,11 +150,15 @@ int main()
             spriteX = SCREEN_WIDTH + frameWidth;
         }
 
+        if (spriteY >= 300) {
+            spriteY = 300;
+        }
+
         frame = frame % current_struct.maxFrames;
         DrawTexturePro(
             knightSheet,
             Rectangle{ frameWidth*frame, current_struct.animationHeight, currentFrame, frameHeight },
-            Rectangle{ spriteX-(frameWidth/2)*5,spriteY-(frameHeight/2)*5, frameWidth*5, frameHeight*5 },
+            Rectangle{ spriteX,spriteY, frameWidth*5, frameHeight*5 },
             Vector2{frameWidth/2, frameHeight/2},
             0.f,
             WHITE);
