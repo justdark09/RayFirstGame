@@ -45,16 +45,18 @@ int main()
     AnimationStruct current_struct{};
 
     // declare and initialize variables used within the while loop in order to keep the code clean
-    const float runMultiplier = 1.1;
+    const float runMultiplier = 1.25;
     const float crouchMultiplier = .7;
 
     float timer = 0.0f;
     int frame = 0;
 
-    float spriteX = frameWidth/2;
+    float spriteX = 0 - frameWidth*2;
     float spriteY = 300;
 
     float frameTime = .12f;
+
+    Vector2 spriteCenter = {frameWidth/2, frameHeight/2 };
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -71,6 +73,8 @@ int main()
 
         velocityY += GetFrameTime() * gravity;
         spriteY += GetFrameTime() * velocityY;
+
+
 
         // initialize the animation structs
         // !! maxFrames should equal the number of frames the animation has MINUS ONE !!
@@ -99,6 +103,7 @@ int main()
         if (IsKeyPressed(KEY_W)) {
             velocityY = -300;
             current_struct = jump_struct;
+
         } else if (IsKeyDown(KEY_D)) {
             currentFrame = frameWidth;
             frameTime = .12f;
@@ -143,23 +148,26 @@ int main()
             spriteY -= 5;
         }
 
-        if (spriteX > SCREEN_WIDTH + frameWidth) {
-            spriteX = 0;
+        if (spriteX > SCREEN_WIDTH) {
+            spriteX = 0 - frameWidth*2;
         }
-        if (spriteX < 0) {
-            spriteX = SCREEN_WIDTH + frameWidth;
+        if (spriteX < 0 - frameWidth*2.5) {
+            spriteX = SCREEN_WIDTH;
         }
 
         if (spriteY >= 300) {
             spriteY = 300;
         }
 
+
+
+
         frame = frame % current_struct.maxFrames;
         DrawTexturePro(
             knightSheet,
             Rectangle{ frameWidth*frame, current_struct.animationHeight, currentFrame, frameHeight },
-            Rectangle{ spriteX,spriteY, frameWidth*5, frameHeight*5 },
-            Vector2{frameWidth/2, frameHeight/2},
+            Rectangle{ spriteX, spriteY, frameWidth*5, frameHeight*5 },
+            spriteCenter,
             0.f,
             WHITE);
 
